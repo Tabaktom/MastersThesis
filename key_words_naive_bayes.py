@@ -58,8 +58,8 @@ def unigram(corpus, label, target):
 df=pd.read_csv(r'vol_tweets.csv')
 df =df.sort_values(['volatility'])
 
-tenpercentile = int(len(df)*0.2)
-ninetypercentile=int(len(df)*0.8)
+tenpercentile = int(len(df)*0.1)
+ninetypercentile=int(len(df)*0.9)
 low_vol = df[:tenpercentile+1]
 high_vol=df[ninetypercentile:]
 low_D = Counter()
@@ -89,8 +89,8 @@ low_df = pd.DataFrame({'word': pd.Series(low_words), 'values':pd.Series(low_valu
 high_df = high_df.sort_values('values', ascending=False).where(high_df['values']>25).where(high_df['values']<51).dropna().reset_index().drop(columns=['index'])
 low_df = low_df.sort_values('values', ascending=False).where(low_df['values']>25).where(low_df['values']<51).dropna().reset_index().drop(columns=['index'])
 
-print('High:', high_df.word.values.tolist())
-print('Low:', low_df.word.values.tolist())
+#print('High:', high_df.word.values.tolist())
+#print('Low:', low_df.word.values.tolist())
 
 
 def sig_words():
