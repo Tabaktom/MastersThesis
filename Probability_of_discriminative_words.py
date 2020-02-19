@@ -55,6 +55,10 @@ vectors_high, vectors_low = (counted_vectors[:int(len(counted_vectors)/2)]+1)/(l
 counts_high = (np.sum(counts_high, axis=0)+1)/(len(vocab)+1)
 counts_low = (np.sum(counts_low, axis=0)+1)/(len(vocab)+1)
 
-probs = pd.DataFrame({'vocab': feature_names, 'probs':counts_high/counts_low})
-probs = probs.sort_values(by='probs', ascending=False).reset_index().drop(columns = 'index')
-print(probs['vocab'][:100].values.tolist())
+probs_high = pd.DataFrame({'vocab': feature_names, 'probs':counts_high/counts_low})
+probs_high = probs_high.sort_values(by='probs', ascending=False).reset_index().drop(columns = 'index')
+print(probs_high['vocab'][:100].values.tolist())
+
+probs_low = pd.DataFrame({'vocab': feature_names, 'probs':counts_low/counts_high})
+probs_low = probs_low.sort_values(by='probs', ascending=False).reset_index().drop(columns='index')
+print(probs_low['vocab'][:100].values.tolist())

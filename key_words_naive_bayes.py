@@ -58,8 +58,8 @@ def unigram(corpus, label, target):
 df=pd.read_csv(r'vol_tweets.csv')
 df =df.sort_values(['volatility'])
 
-tenpercentile = int(len(df)*0.1)
-ninetypercentile=int(len(df)*0.9)
+tenpercentile = int(len(df)*0.2)
+ninetypercentile=int(len(df)*0.8)
 low_vol = df[:tenpercentile+1]
 high_vol=df[ninetypercentile:]
 low_D = Counter()
