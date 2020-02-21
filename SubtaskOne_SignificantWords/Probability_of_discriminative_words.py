@@ -1,13 +1,17 @@
 import pandas as pd
-from key_words_naive_bayes import sig_words, _tokenize_sentence, low_vol, high_vol
+from SubtaskOne_SignificantWords.key_words_naive_bayes_old import _tokenize_sentence, low_vol, high_vol
 from sklearn.feature_extraction.text import CountVectorizer
-from many_hot_encoddings import vocab_creator
 import numpy as np
 import preprocessor as p
 
 high_vol=high_vol.reset_index().drop(columns=['index'])
 low_vol=low_vol.reset_index().drop(columns=['index'])
 
+'''
+Useful Functions:
+    preprocess
+    get_probs
+'''
 
 def preprocess(df_high, df_low):
     vocab= []
@@ -21,8 +25,6 @@ def preprocess(df_high, df_low):
         for t in tweet:
             vocab.append(((((((((((t.replace('"', '')).replace('...', '')).replace('“', "")).replace('/', '')).replace(':', '')).replace('(', '')).replace(')', '')).replace('!', '')).replace('”', '')).replace("‘", "")).replace("’", ""))
     return list(set(vocab))
-
-
 
 
 def get_probs(df_high, df_low):
@@ -57,8 +59,8 @@ counts_low = (np.sum(counts_low, axis=0)+1)/(len(vocab)+1)
 
 probs_high = pd.DataFrame({'vocab': feature_names, 'probs':counts_high/counts_low})
 probs_high = probs_high.sort_values(by='probs', ascending=False).reset_index().drop(columns = 'index')
-print(probs_high['vocab'][:100].values.tolist())
+#print(probs_high['vocab'][:100].values.tolist())
 
 probs_low = pd.DataFrame({'vocab': feature_names, 'probs':counts_low/counts_high})
 probs_low = probs_low.sort_values(by='probs', ascending=False).reset_index().drop(columns='index')
-print(probs_low['vocab'][:100].values.tolist())
+#print(probs_low['vocab'][:100].values.tolist())
