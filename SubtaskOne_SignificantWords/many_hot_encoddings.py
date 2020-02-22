@@ -1,7 +1,14 @@
 import pandas as pd
-from key_words_naive_bayes import sig_words, _tokenize_sentence, low_vol, high_vol
+from SubtaskOne_SignificantWords.key_words_naive_bayes_old import _tokenize_sentence, low_vol, high_vol
 from sklearn.feature_extraction.text import CountVectorizer
 high_vol=high_vol.reset_index().drop(columns=['index'])
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
+
+'''
+Useful Functions:
+    vocab_creator
+    create_corpus
+'''
 
 low_vol=low_vol.reset_index().drop(columns=['index'])
 labels = ['High']*len(high_vol) +['Low']*len(low_vol)
@@ -22,7 +29,6 @@ def vocab_creator(df_high, df_low):
     vocab = set(vocab_high +vocab_low)
     return list(vocab)
 
-#vocab = vocab_creator(high_vol, low_vol)
 
 def create_corpus(df_high, df_low):
     corpus =[]
@@ -33,19 +39,19 @@ def create_corpus(df_high, df_low):
     vec = CountVectorizer()
     X = vec.fit_transform(corpus)
     return X.toarray(), vec.get_feature_names()
+#<<<<<<< HEAD:many_hot_encoddings.py
 import numpy as np
 vectors, features_names = create_corpus(high_vol, low_vol)
 #print(features_names[:10])
 #print(np.array(vectors))
 #print(np.array(vectors).shape)
+#=======
+#>>>>>>> cfe95eca642ab0906f51aef228b9e39dc9f47169:SubtaskOne_SignificantWords/many_hot_encoddings.py
 
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB, MultinomialNB
-from sklearn.metrics import classification_report
+vectors, features_names = create_corpus(high_vol, low_vol)
 
 nb = GaussianNB()
 MNB = MultinomialNB()
-#x_train, x_test, y_train, y_test = train_test_split(np.array(vectors), labels, shuffle =True, test_size=0.33)
 fitted = MNB.fit(vectors, labels)
 params = fitted.feature_count_
 
@@ -53,9 +59,12 @@ Meaning = pd.DataFrame({'word': features_names, 'weight':params[0]})
 Meaning.index= Meaning['word']
 Meaning=Meaning.drop(columns= ['word'])
 Meaning = Meaning.sort_values(by = 'weight', ascending=False)
+#<<<<<<< HEAD:many_hot_encoddings.py
 
 #print('Importance:')
 #print(Meaning.index.values[:100])
 
 
 
+#=======
+#>>>>>>> cfe95eca642ab0906f51aef228b9e39dc9f47169:SubtaskOne_SignificantWords/many_hot_encoddings.py

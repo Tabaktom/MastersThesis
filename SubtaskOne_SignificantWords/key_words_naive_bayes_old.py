@@ -2,7 +2,14 @@ import pandas as pd
 from nltk.tokenize import word_tokenize
 import string
 from collections import Counter
-
+'''
+Useful Functions:
+    glue_tokens
+    unglue_tokens
+    _tokenize_sentence
+    unigram
+    word_dist
+'''
 
 def glue_tokens(tokens, order):
     return '{0}@{1}'.format(order, ' '.join(tokens))
@@ -43,7 +50,7 @@ def unigram(corpus, label, target):
     for sent, lab in zip(corpus, label):
         if isinstance(sent, str) == True:
             if lab == target:
-                words = tokenize_sentence(sent, 1)
+                words = _tokenize_sentence(sent, 1)
                 for w in words:
                     if w not in frequent_vocab:
                         word = '<unk/>'
@@ -55,7 +62,11 @@ def unigram(corpus, label, target):
     return uni, total
 
 
-df=pd.read_csv('vol_tweets.csv')
+#<<<<<<< HEAD:key_words_naive_bayes_old.py
+#df=pd.read_csv('vol_tweets.csv')
+#=======
+df=pd.read_csv(r'/Users/tom/PycharmProjects/MastersThesis/Tweet_Data/vol_tweets.csv')
+#>>>>>>> cfe95eca642ab0906f51aef228b9e39dc9f47169:SubtaskOne_SignificantWords/key_words_naive_bayes_old.py
 df =df.sort_values(['volatility'])
 
 tenpercentile = int(len(df)*0.2)
@@ -88,9 +99,6 @@ high_df = pd.DataFrame({'word': pd.Series(high_words), 'values':pd.Series(high_v
 low_df = pd.DataFrame({'word': pd.Series(low_words), 'values':pd.Series(low_values)})
 high_df = high_df.sort_values('values', ascending=False).where(high_df['values']>25).where(high_df['values']<51).dropna().reset_index().drop(columns=['index'])
 low_df = low_df.sort_values('values', ascending=False).where(low_df['values']>25).where(low_df['values']<51).dropna().reset_index().drop(columns=['index'])
-
-#print('High:', high_df.word.values.tolist())
-#print('Low:', low_df.word.values.tolist())
 
 
 def sig_words():

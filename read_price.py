@@ -1,8 +1,13 @@
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-import scipy.stats as ss
-df = pd.read_csv('GBPUSD_1min_local_full_new.txt')
+
+'''
+Useful Functions:
+    plot.pdf
+    plot.cdf
+'''
+df = pd.read_csv('Financial_Data/GBPUSD_1min_local_full_new.txt')
 
 df['Datetime'] = df['Date'] + pd.Series([' ']* len(df)) + df['Time']
 df['Datetime'] =pd.to_datetime(df['Datetime'], format='%m/%d/%Y %H:%M')
@@ -67,7 +72,7 @@ class plot():
         fig.update_layout(title='Cumulative Distribution Frequency', xaxis_title='Volatility', yaxis_title='Cumulative Probability')
         fig.show()
 
-tweetdf = pd.read_csv('Tweets_20012017_14012020.csv')
+tweetdf = pd.read_csv('Tweet_Data/Tweets_20012017_14012020.csv')
 
 tweetdf = tweetdf.drop(columns = ['username', 'to', 'replies', 'retweets', 'favorites',
                                   'geo', 'mentions', 'hashtags', 'id', 'permalink'])

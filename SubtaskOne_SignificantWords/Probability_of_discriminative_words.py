@@ -1,13 +1,17 @@
 import pandas as pd
-from key_words_naive_bayes import sig_words, _tokenize_sentence, low_vol, high_vol
+from SubtaskOne_SignificantWords.key_words_naive_bayes_old import _tokenize_sentence, low_vol, high_vol
 from sklearn.feature_extraction.text import CountVectorizer
-from many_hot_encoddings import vocab_creator
 import numpy as np
 import preprocessor as p
 
 high_vol=high_vol.reset_index().drop(columns=['index'])
 low_vol=low_vol.reset_index().drop(columns=['index'])
 
+'''
+Useful Functions:
+    preprocess
+    get_probs
+'''
 
 def preprocess(df_high):
     vocab= []
@@ -19,8 +23,6 @@ def preprocess(df_high):
             if vocab[-1]=='':
                 vocab=vocab[:-1]
     return list(set(vocab))
-
-
 
 
 def get_probs(df_high, df_low):
