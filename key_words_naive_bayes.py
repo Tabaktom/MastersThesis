@@ -55,7 +55,7 @@ def unigram(corpus, label, target):
     return uni, total
 
 
-df=pd.read_csv(r'vol_tweets.csv')
+df=pd.read_csv('vol_tweets.csv')
 df =df.sort_values(['volatility'])
 
 tenpercentile = int(len(df)*0.2)

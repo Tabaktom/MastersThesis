@@ -35,8 +35,6 @@ def create_corpus(df_high, df_low):
     return X.toarray(), vec.get_feature_names()
 import numpy as np
 vectors, features_names = create_corpus(high_vol, low_vol)
-print(vectors)
-print(type(vectors))
 #print(features_names[:10])
 #print(np.array(vectors))
 #print(np.array(vectors).shape)
@@ -55,11 +53,9 @@ Meaning = pd.DataFrame({'word': features_names, 'weight':params[0]})
 Meaning.index= Meaning['word']
 Meaning=Meaning.drop(columns= ['word'])
 Meaning = Meaning.sort_values(by = 'weight', ascending=False)
-print(Meaning)
+
 #print('Importance:')
 #print(Meaning.index.values[:100])
 
-print('------------------------------------------------')
-print('------------------------------------------------')
-print('------------------------------------------------')
+
 

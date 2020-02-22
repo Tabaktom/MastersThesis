@@ -9,17 +9,15 @@ high_vol=high_vol.reset_index().drop(columns=['index'])
 low_vol=low_vol.reset_index().drop(columns=['index'])
 
 
-def preprocess(df_high, df_low):
+def preprocess(df_high):
     vocab= []
     exclude= ['http', '#', '@', 'tweet', 'pic']
     for tweet in df_high.text:
         tweet = _tokenize_sentence(p.clean(tweet), 1)
         for t in tweet:
             vocab.append(((((((((((t.replace('"', '')).replace('...', '')).replace('“', "")).replace('/', '')).replace(':', '')).replace('(', '')).replace(')', '')).replace('!', '')).replace('”', '')).replace("‘", "")).replace("’", ""))
-    for tweet in df_low.text:
-        tweet = _tokenize_sentence(p.clean(tweet), 1)
-        for t in tweet:
-            vocab.append(((((((((((t.replace('"', '')).replace('...', '')).replace('“', "")).replace('/', '')).replace(':', '')).replace('(', '')).replace(')', '')).replace('!', '')).replace('”', '')).replace("‘", "")).replace("’", ""))
+            if vocab[-1]=='':
+                vocab=vocab[:-1]
     return list(set(vocab))
 
 
@@ -44,7 +42,9 @@ def get_probs(df_high, df_low):
     return X.toarray(), vec.get_feature_names()
 
 labels = ['High']*len(high_vol)+['Low']*len(low_vol)
-vocab  =preprocess(high_vol, low_vol)
+vocab_high =preprocess(high_vol)
+vocab_low = preprocess(low_vol)
+vocab = set(np.concatenate([vocab_high, vocab_low]))
 
 df = pd.DataFrame({'vocab':vocab})
 counted_vectors,feature_names = get_probs(high_vol,low_vol)
@@ -57,8 +57,8 @@ counts_low = (np.sum(counts_low, axis=0)+1)/(len(vocab)+1)
 
 probs_high = pd.DataFrame({'vocab': feature_names, 'probs':counts_high/counts_low})
 probs_high = probs_high.sort_values(by='probs', ascending=False).reset_index().drop(columns = 'index')
-print(probs_high['vocab'][:100].values.tolist())
+#print(probs_high['vocab'][:100].values.tolist())
 
 probs_low = pd.DataFrame({'vocab': feature_names, 'probs':counts_low/counts_high})
 probs_low = probs_low.sort_values(by='probs', ascending=False).reset_index().drop(columns='index')
-print(probs_low['vocab'][:100].values.tolist())
+#print(probs_low['vocab'][:100].values.tolist())
