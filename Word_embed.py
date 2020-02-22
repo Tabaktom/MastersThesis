@@ -1,10 +1,10 @@
 import pandas as pd
-from Probability_of_discriminative_words import preprocess
-from key_words_naive_bayes import _tokenize_sentence
+from SubtaskOne_SignificantWords.Probability_of_discriminative_words import preprocess
+from SubtaskOne_SignificantWords.key_words_naive_bayes_old import _tokenize_sentence
 import preprocessor as p
 from keras.preprocessing.sequence import pad_sequences
 
-df = pd.read_csv('vol_tweets.csv')
+df = pd.read_csv('/Users/tom/PycharmProjects/MastersThesis/Tweet_Data/vol_tweets.csv')
 print(df.head(5))
 vocab_list = preprocess(df)
 print(len(vocab_list))
